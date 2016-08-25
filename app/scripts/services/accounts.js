@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc service
  * @name appMeetupApp.Accounts
@@ -13,17 +11,31 @@
  */
 angular.module('appMeetupApp')
 .factory('Accounts', function () {
+    'use strict';
 
-    if(!localStorage.accounts){
-        localStorage.accounts = [false];
+    var accounts = [], currentAccount;
+
+    function _getAccounts(){
+        if(!localStorage.accounts){
+            localStorage.accounts = JSON.stringify([false]);
+        }
+
+        accounts = JSON.parse(localStorage.accounts);
+        if(!accounts){
+            accounts = [];
+        }
     }
 
-    var accounts = localStorage.accounts,
-        currentAccount = null;
+    function _saveAccounts(){
+        localStorage.accounts = JSON.stringify(accounts);
+    }
 
     function isPresent(user){
         for(var x in accounts){
             var testUser = accounts[x];
+            if(!testUser){
+                continue;
+            }
             if(user.email.toLowerCase() === testUser.email.toLowerCase()) {
                 return true;
             }
@@ -48,6 +60,7 @@ angular.module('appMeetupApp')
         return false;
     }
 
+    _getAccounts();
     // Public API here
     return {
         login: function(email, password){
@@ -67,7 +80,9 @@ angular.module('appMeetupApp')
                 return false;
             }
             accounts.push(user);
+            _saveAccounts();
             user.id = accounts.length;
+            return true;
         },
         current: function(){
             return currentAccount;

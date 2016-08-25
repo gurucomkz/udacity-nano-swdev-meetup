@@ -15,8 +15,11 @@ angular
     'ngSanitize',
     'ngMaterial'
 ])
-.config(function ($routeProvider) {
+.config(function ($routeProvider, $mdThemingProvider) {
     "use strict";
+
+    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+    $mdThemingProvider.theme('dark-red').backgroundPalette('red').dark();
 
     $routeProvider
       .when('/', {
