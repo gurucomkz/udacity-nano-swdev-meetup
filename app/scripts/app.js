@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc overview
  * @name appMeetupApp
@@ -14,21 +12,34 @@ angular
     'ngAria',
     'ngMessages',
     'ngRoute',
-    'ngSanitize'
-  ])
-  .config(function ($routeProvider) {
+    'ngSanitize',
+    'ngMaterial'
+])
+.config(function ($routeProvider) {
+    "use strict";
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/signup', {
+        templateUrl: 'views/signup.html',
+        controller: 'SignupCtrl',
+        controllerAs: 'signup'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'login'
+      })
+      .when('/create', {
+        templateUrl: 'views/create.html',
+        controller: 'CreateCtrl',
+        controllerAs: 'create'
       })
       .otherwise({
         redirectTo: '/'
       });
-  });
+});

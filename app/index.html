@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html ng-app="appMeetupApp">
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -15,48 +15,45 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="appMeetupApp">
+  <body layout="row" ng-cloak ng-controller="ApplayoutCtrl">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="header">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
+    <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+              md-component-id="left" hide-print
+              md-is-locked-open="$mdMedia('gt-sm')">
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Meet Up Planner</h1>
+        </md-toolbar>
+        <md-content flex role="navigation">
+            <ul class="docs-menu">
+                <li ng-repeat="section in sections"><a class="md-button" ng-href="{{section.url}}">{{section.name}}</a></li>
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="#/">appMeetup</a>
-          </div>
-
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
             </ul>
-          </div>
+        </md-content>
+    </md-sidenav>
+    <div layout="column" tabIndex="-1" role="main" flex>
+        <md-toolbar class="md-whiteframe-glow-z1 site-content-toolbar">
+            <div class="md-toolbar-tools docs-toolbar-tools" tabIndex="-1">
+                <md-button class="md-icon-button" ng-click="toggleLeft()" hide-gt-sm aria-label="Toggle Menu">
+                  <md-icon md-svg-src="images/ic_menu_24px.svg"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-content md-scroll-y layout="column" flex>
+            <div ng-view layout-padding flex="noshrink"></div>
+        </md-content>
+
+        <div layout="row" flex="noshrink" layout-align="center center">
+            <div id="license-footer" flex>
+                Implemented @ 2016 by <a href="https://github.com/gurucomkz/">Sergey Shevchenko</a> for
+                    <a href="https://www.udacity.com/course/senior-web-developer-nanodegree-by-google--nd802" target="_blank">Senior Web Developer Udacity Nanodegree</a>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="container">
-    <div ng-view=""></div>
-    </div>
-
-    <div class="footer">
-      <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div>
-    </div>
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -73,9 +70,13 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
         <script src="scripts/services/accounts.js"></script>
         <script src="scripts/services/events.js"></script>
+        <script src="scripts/controllers/applayout.js"></script>
+        <script src="scripts/controllers/signup.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/create.js"></script>
+        <script src="scripts/directives/pwguide.js"></script>
         <!-- endbuild -->
 </body>
 </html>

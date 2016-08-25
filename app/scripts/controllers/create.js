@@ -1,15 +1,17 @@
+'use strict';
+
 /**
  * @ngdoc function
- * @name appMeetupApp.controller:MainCtrl
+ * @name appMeetupApp.controller:CreateCtrl
  * @description
- * # MainCtrl
+ * # CreateCtrl
  * Controller of the appMeetupApp
  */
 angular.module('appMeetupApp')
-.controller('MainCtrl', [
-     '$scope',
+.controller('CreateCtrl', [
+    '$scope',
 function ($scope) {
-     'use strict';
+    'use strict';
 
 
 }]);
