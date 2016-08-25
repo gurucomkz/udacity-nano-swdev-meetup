@@ -8,8 +8,8 @@
 angular.module('appMeetupApp')
 .controller('MainCtrl', [
      '$scope',
-function ($scope) {
+     'Accounts',
+function ($scope, Accounts) {
      'use strict';
-
 
 }]);

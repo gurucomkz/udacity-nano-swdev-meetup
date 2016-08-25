@@ -10,8 +10,12 @@ angular.module('appMeetupApp')
     '$scope',
     '$mdSidenav',
     '$timeout',
-function ($scope, $mdSidenav, $timeout) {
+    'Accounts',
+function ($scope, $mdSidenav, $timeout, Accounts) {
     'use strict';
+
+    $scope.currentAccount = Accounts.current;
+    $scope.logout = Accounts.logout;
 
     $scope.sections = [
         {
@@ -29,6 +33,10 @@ function ($scope, $mdSidenav, $timeout) {
         {
             'name': 'Signup',
             'url': '#/signup'
+        },
+        {
+            'name': 'Logout',
+            'action': $scope.logout
         }
     ];
 

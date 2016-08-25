@@ -22,12 +22,23 @@ angular.module('appMeetupApp')
 
         accounts = JSON.parse(localStorage.accounts);
         if(!accounts){
-            accounts = [];
+            accounts = [false];
         }
     }
 
     function _saveAccounts(){
         localStorage.accounts = JSON.stringify(accounts);
+    }
+
+    function _getCurrentAccount(){
+
+        if(!currentAccount){
+            var accId = localStorage.currentAccount;
+            if(accounts[parseInt(accId)]){
+                currentAccount = accounts[parseInt(accId)];
+            }
+        }
+        return currentAccount;
     }
 
     function isPresent(user){
@@ -43,6 +54,7 @@ angular.module('appMeetupApp')
         return false;
     }
     function doLogin(user){
+        localStorage.currentAccount = user.id;
         return (currentAccount = user);
     }
     function checkLogin(email, password){
@@ -50,7 +62,7 @@ angular.module('appMeetupApp')
 
         for(var x in accounts){
             var testUser = accounts[x];
-            if(email === testUser.email.toLowerCase()) {
+            if(testUser && email === testUser.email.toLowerCase()) {
                 if(password === testUser.password){
                     return doLogin(testUser);
                 }
@@ -67,31 +79,33 @@ angular.module('appMeetupApp')
             return checkLogin(email, password);
         },
         logout: function(){
-            currentAccount = null;
+            currentAccount = localStorage.currentAccount = null;
         },
         exists: function(){
             return isPresent();
         },
         create: function(user){
+            debugger;
             if(!user || !user.name || !user.email) {
                 return false;
             }
             if(isPresent(user)){
                 return false;
             }
+            user.id = accounts.length;
             accounts.push(user);
             _saveAccounts();
-            user.id = accounts.length;
+
             return true;
         },
         current: function(){
-            return currentAccount;
+            return _getCurrentAccount();
         },
         list: function(){
             return accounts;
         },
         get: function (id) {
-            return accounts[id];
+            return accounts[parseInt(id)];
         }
     };
 });

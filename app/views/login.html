@@ -1,1 +1,54 @@
-<p>This is the login view.</p>
+<div layout="row">
+	<div flex></div>
+	<md-card ng-if="loginMessage" md-theme="{{ loginSuccess ? 'dark-blue' : 'dark-red' }}" class="login-result" md-theme-watch>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline" ng-if="loginSuccess">Success</span>
+				<span class="md-headline" ng-if="!loginSuccess">Error</span>
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<p>
+				{{loginMessage}}
+			</p>
+		</md-card-content>
+		<md-card-actions layout="row" layout-align="end center">
+          <md-button ng-if="!loginSuccess" class="md-raised" ng-click="retryAction()">Try again</md-button>
+		  <md-button ng-if="!loginSuccess" ng-href="#/signup">Register account</md-button>
+		  <md-button ng-if="loginSuccess" class="md-raised" ng-href="#/login">Go to meetings</md-button>
+        </md-card-actions>
+	</md-card>
+	<section class="demo-container md-whiteframe-z1" ng-if="!loginMessage">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h3>Login To Add Meetings</h3>
+			</div>
+		</md-toolbar>
+		<md-content flex layout-padding layout="column">
+			<form name="loginForm" ng-submit="onSubmit()" autocomplete>
+				<div flex layout="column">
+
+					<md-input-container md-no-float class="md-block">
+						<label>Email</label>
+						<input ng-model="user.email" autocomplete="email" type="text" required ng-pattern="/^.+@.+\..+$/">
+						<div ng-messages="loginForm.email.$error">
+							<div ng-message="required">This is required.</div>
+							<div ng-message="pattern">Check your input. Email seems to invalid.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container md-no-float class="md-block">
+						<label>Password</label>
+						<input ng-model="user.password" autocomplete="current-password" minlength="8" type="password" required>
+						<div ng-messages="loginForm.password.$error">
+							<div ng-message="required">This is required.</div>
+						</div>
+					</md-input-container>
+					<md-button class="md-raised md-primary" type="submit">login</md-button>
+					<md-button ng-href="#/signup">Register account</md-button>
+					</div>
+			</form>
+		</md-content>
+	</section>
+	<div flex></div>
+</div>
