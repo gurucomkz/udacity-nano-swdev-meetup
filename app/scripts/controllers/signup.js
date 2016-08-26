@@ -26,7 +26,7 @@ function ($scope, Accounts) {
     $scope.retryAction = function(){
         $scope.signupSuccess = false;
         $scope.signupMessage = false;
-    }
+    };
     $scope.user = {
         name:'',
         email:'',

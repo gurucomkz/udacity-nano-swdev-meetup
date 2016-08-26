@@ -85,7 +85,6 @@ angular.module('appMeetupApp')
             return isPresent();
         },
         create: function(user){
-            debugger;
             if(!user || !user.name || !user.email) {
                 return false;
             }

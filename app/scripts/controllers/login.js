@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * @ngdoc function
  * @name appMeetupApp.controller:LoginCtrl
@@ -28,7 +26,7 @@ function ($scope, Accounts) {
     $scope.retryAction = function(){
         $scope.loginSuccess = false;
         $scope.loginMessage = false;
-    }
+    };
 
     $scope.user = {
         email:'',
