@@ -1,0 +1,41 @@
+<md-dialog aria-label="Pick friends from list">
+    <md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Pick friends from list</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="cancel()">
+				<md-icon md-svg-src="images/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+			</md-button>
+		</div>
+    </md-toolbar>
+    <md-dialog-content>
+		<div class="md-dialog-content">
+			<div
+				class="contact-item"
+				layout="row"
+				ng-repeat="(index, contact) in allContacts"
+				ng-if="contacts.indexOf(contact) < 0">
+				<md-list-item flex>
+					<md-checkbox
+					  ng-click="toggle(contact, selected)"
+					  aria-label="Add {{contact.name}} to list"
+		              class="md-warn md-align-top-left"></md-checkbox>
+					<img ng-src="{{contact.avatar}}" class="md-avatar" alt="{{contact.name}}" />
+					<div class="md-list-item-text compact" flex>
+						<h3>{{contact.name}}</h3>
+					</div>
+				</md-list-item>
+			</div>
+		</div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+		<span flex></span>
+		<md-button class="md-raised" ng-click="apply()">
+			Apply
+		</md-button>
+		<md-button ng-click="cancel()">
+			Cancel
+		</md-button>
+    </md-dialog-actions>
+
+</md-dialog>
