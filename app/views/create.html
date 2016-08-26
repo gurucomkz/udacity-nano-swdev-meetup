@@ -1,1 +1,102 @@
-<p>This is the create view.</p>
+<div layout="row" class="chipsdemoContactChips">
+	<section flex  layout="column" class="demo-container md-whiteframe-z1">
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h3>Create Meeting</h3>
+			</div>
+		</md-toolbar>
+		<md-content flex class="md-padding autocomplete" layout="column">
+			<md-input-container>
+				<label>Name of the event</label>
+				<input ng-model="event.name" type="text" required>
+			</md-input-container>
+
+			<md-input-container>
+				<label>What kind of event it is?</label>
+				<md-select ng-model="event.type" required>
+					<md-option ng-repeat="(typeKey, typeName) in eventTypes" value="{{typeKey}}">{{typeName}}</md-option>
+				</md-select>
+			</md-input-container>
+
+			<div layout="row">
+				<md-autocomplete
+					required
+					flex
+					ng-show="!meAsHost"
+					md-selected-item="ctrl.selectedItem"
+					md-search-text-change="hostSearchTextChange(hostSearchText)"
+					md-search-text="hostSearchText"
+					md-selected-item-change="selectedItemChange(host)"
+					md-items="host in hostQuerySearch(hostSearchText)"
+					md-item-text="host"
+					md-min-length="0"
+					md-floating-label="Who is going to be the event's host?">
+					<md-item-template>
+						<span md-highlight-text="hostSearchText">{{host}}</span>
+					</md-item-template>
+					<md-not-found>
+						No fiends matching "{{hostSearchText}}" were found.
+					</md-not-found>
+		      	</md-autocomplete>
+
+				<md-input-container flex ng-show="meAsHost">
+					<label>Who is going to be the event's host?</label>
+					<input disabled ng-model="myName">
+				</md-input-container>
+
+				<md-input-container>
+					<md-checkbox
+						ng-click="toggleMeAsHost()"
+						aria-label="This is me"
+						class="md-warn md-align-top-left">
+					  	This is me
+					</md-checkbox>
+				</md-input-container>
+			</div>
+			<div layout="row">
+				<div layout="row" flex>
+					<md-input-container>
+		            	<label>Event start date</label>
+		            	<md-datepicker ng-model="event.startDate" md-placeholder="Start date"></md-datepicker>
+		          	</md-input-container>
+					<md-input-container>
+		            	<label>Event start time</label>
+		            	<input ng-model="event.startTime" type="time" placeholder="time">
+		          	</md-input-container>
+				</div>
+				<div layout="row" flex>
+					<md-input-container>
+		            	<label>Event end date</label>
+		            	<md-datepicker ng-model="event.endDate" md-placeholder="End date"></md-datepicker>
+		          	</md-input-container>
+					<md-input-container>
+		            	<label>Event end time</label>
+		            	<input ng-model="event.endTime" type="time" placeholder="time">
+		          	</md-input-container>
+				</div>
+			</div>
+
+			<md-input-container layout="row">
+				<label>Guests</label>
+				<md-contact-chips
+					flex
+					ng-model="contacts"
+					md-contacts="querySearch($query)"
+					md-contact-name="name"
+					md-contact-image="avatar"
+					md-require-match="true"
+					filter-selected="filterSelected"
+					placeholder="Start typing to add guests">
+				</md-contact-chips>
+				<md-button ng-click="openFriendsList($event)">
+					Pick From List
+				</md-button>
+
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Message to participants</label>
+				<textarea ng-model="event.message" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        	</md-input-container>
+		</md-content>
+	</section>
+</div>

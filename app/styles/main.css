@@ -223,7 +223,16 @@ body {
     border-top: 1px solid #ddd;
 }
 
+.contact-item{
+    padding: 4px;
+    float: left;
+    width:33.33%;
+    height: 55px;
+}
 
+.contact-item h3{
+    font-size: 13px;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
 
