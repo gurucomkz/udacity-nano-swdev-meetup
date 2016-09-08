@@ -18,9 +18,9 @@ function ($scope, Accounts) {
         var loginResult = Accounts.login($scope.user.email, $scope.user.password);
         $scope.loginSuccess = loginResult;
         if(!loginResult){
-            $scope.loginMessage = "Login failed. Maybe create account?";
+            $scope.loginMessage = 'Login failed. Maybe create account?';
         }else{
-            $scope.loginMessage = "Login successfull. Please proceed.";
+            $scope.loginMessage = 'Login successfull. Please proceed.';
         }
     };
     $scope.retryAction = function(){

@@ -1,102 +1,151 @@
 <div layout="row" class="chipsdemoContactChips">
-	<section flex  layout="column" class="demo-container md-whiteframe-z1">
+
+	<md-card  ng-if="createMessage" md-theme="{{ createSuccess ? 'dark-blue' : 'dark-red' }}" class="login-result" md-theme-watch>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline" ng-if="createSuccess">Success</span>
+				<span class="md-headline" ng-if="!createSuccess">Error</span>
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<p>
+				{{createMessage}}
+			</p>
+		</md-card-content>
+		<md-card-actions layout="row" layout-align="end center">
+		  <md-button ng-if="!createSuccess" class="md-raised" ng-click="retryAction()">Try again</md-button>
+		  <md-button ng-if="createSuccess" class="md-raised" ng-click="resetForm()">Create new</md-button>
+		  <md-button ng-if="createSuccess" class="md-raised" ng-href="#/">Go to events</md-button>
+		</md-card-actions>
+	</md-card>
+
+	<section  ng-if="!createMessage" flex  layout="column" class="demo-container md-whiteframe-z1">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h3>Create Meeting</h3>
 			</div>
 		</md-toolbar>
-		<md-content flex class="md-padding autocomplete" layout="column">
-			<md-input-container>
-				<label>Name of the event</label>
-				<input ng-model="event.name" type="text" required>
-			</md-input-container>
 
-			<md-input-container>
-				<label>What kind of event it is?</label>
-				<md-select ng-model="event.type" required>
-					<md-option ng-repeat="(typeKey, typeName) in eventTypes" value="{{typeKey}}">{{typeName}}</md-option>
-				</md-select>
-			</md-input-container>
-
-			<div layout="row">
-				<md-autocomplete
-					required
-					flex
-					ng-show="!meAsHost"
-					md-selected-item="ctrl.selectedItem"
-					md-search-text-change="hostSearchTextChange(hostSearchText)"
-					md-search-text="hostSearchText"
-					md-selected-item-change="selectedItemChange(host)"
-					md-items="host in hostQuerySearch(hostSearchText)"
-					md-item-text="host"
-					md-min-length="0"
-					md-floating-label="Who is going to be the event's host?">
-					<md-item-template>
-						<span md-highlight-text="hostSearchText">{{host}}</span>
-					</md-item-template>
-					<md-not-found>
-						No fiends matching "{{hostSearchText}}" were found.
-					</md-not-found>
-		      	</md-autocomplete>
-
-				<md-input-container flex ng-show="meAsHost">
-					<label>Who is going to be the event's host?</label>
-					<input disabled ng-model="myName">
+		<form ng-if="!createMessage" name="eventCreateForm" ng-submit="onSubmit()" autocomplete>
+			<md-content flex class="md-padding autocomplete" layout="column">
+				<md-input-container>
+					<label>Name of the event</label>
+					<input ng-model="event.name" type="text" required>
 				</md-input-container>
 
 				<md-input-container>
-					<md-checkbox
-						ng-click="toggleMeAsHost()"
-						aria-label="This is me"
-						class="md-warn md-align-top-left">
-					  	This is me
-					</md-checkbox>
+					<label>What kind of event it is?</label>
+					<md-select ng-model="event.type" required>
+						<md-option ng-repeat="(typeKey, typeName) in eventTypes" value="{{typeKey}}">{{typeName}}</md-option>
+					</md-select>
 				</md-input-container>
-			</div>
-			<div layout="row">
-				<div layout="row" flex>
-					<md-input-container>
-		            	<label>Event start date</label>
-		            	<md-datepicker ng-model="event.startDate" md-placeholder="Start date"></md-datepicker>
-		          	</md-input-container>
-					<md-input-container>
-		            	<label>Event start time</label>
-		            	<input ng-model="event.startTime" type="time" placeholder="time">
-		          	</md-input-container>
-				</div>
-				<div layout="row" flex>
-					<md-input-container>
-		            	<label>Event end date</label>
-		            	<md-datepicker ng-model="event.endDate" md-placeholder="End date"></md-datepicker>
-		          	</md-input-container>
-					<md-input-container>
-		            	<label>Event end time</label>
-		            	<input ng-model="event.endTime" type="time" placeholder="time">
-		          	</md-input-container>
-				</div>
-			</div>
 
-			<md-input-container layout="row">
-				<label>Guests</label>
-				<md-contact-chips
-					flex
-					ng-model="contacts"
-					md-contacts="querySearch($query)"
-					md-contact-name="name"
-					md-contact-image="avatar"
-					md-require-match="true"
-					filter-selected="filterSelected"
-					placeholder="Start typing to add guests">
-				</md-contact-chips>
-				<md-button ng-click="openFriendsList($event)">
-					Pick From List
-				</md-button>
+				<div layout="row">
+					<md-autocomplete
+						required
+						flex
+						md-input-name="host"
+						ng-if="!meAsHost"
+						md-selected-item="ctrl.selectedItem"
+						md-search-text-change="hostSearchTextChange(hostSearchText)"
+						md-search-text="hostSearchText"
+						md-selected-item-change="selectedItemChange(host)"
+						md-items="host in hostQuerySearch(hostSearchText)"
+						md-item-text="host"
+						md-min-length="0"
+						md-floating-label="Who is going to be the event's host?">
+						<md-item-template>
+							<span md-highlight-text="hostSearchText">{{host}}</span>
+						</md-item-template>
+			      	</md-autocomplete>
 
-			</md-input-container>
-			<md-input-container class="md-block">
-				<label>Message to participants</label>
-				<textarea ng-model="event.message" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-        	</md-input-container>
-		</md-content>
+					<md-input-container flex ng-if="meAsHost">
+						<label>Who is going to be the host?</label>
+						<input disabled ng-model="myName">
+					</md-input-container>
+
+					<md-input-container>
+						<md-checkbox
+							ng-click="toggleMeAsHost()"
+							aria-label="This is me"
+							class="md-warn md-align-top-left">
+						  	This is me
+						</md-checkbox>
+					</md-input-container>
+				</div>
+				<div layout="column" layout-gt-xs="row">
+					<md-input-container flex>
+						<label>Event location</label>
+						<input ng-model="event.location" placeholder="Enter place name or pick coordinates" autocomplete="address" required>
+					</md-input-container>
+					<div layout="row">
+						<md-input-container>
+							<md-button class="md-raised" ng-click="setMyLocation()">My current location</md-button>
+						</md-input-container>
+						<md-input-container>
+							<md-button class="md-raised" ng-click="openLocation()">Use map</md-button>
+						</md-input-container>
+					</div>
+				</div>
+
+				<div layout="column">
+					<md-input-container >
+						<md-checkbox
+							ng-click="toggleWholeDay()"
+							aria-label="Event for the whole day"
+							class="md-warn md-align-top-left">
+							Event for the whole day
+						</md-checkbox>
+					</md-input-container>
+				</div>
+				<div layout="column" layout-gt-xs="row" >
+					<div layout="row" flex>
+						<md-input-container>
+			            	<label>Event start date</label>
+			            	<md-datepicker required ng-model="event.startDate" md-open-on-focus="true" md-placeholder="Start date"></md-datepicker>
+			          	</md-input-container>
+						<md-input-container>
+			            	<label>Event start time</label>
+			            	<input ng-model="event.startDate" type="time" placeholder="time" ng-disabled="event.wholeDay">
+			          	</md-input-container>
+					</div>
+					<div layout="row" flex>
+						<md-input-container>
+			            	<label>Event end date</label>
+			            	<md-datepicker required ng-model="event.endDate" md-min-date="event.startDate" md-open-on-focus="true" md-placeholder="End date" ng-disabled="event.wholeDay"></md-datepicker>
+			          	</md-input-container>
+						<md-input-container>
+			            	<label>Event end time</label>
+			            	<input ng-model="event.endDate" type="time" ng-min="event.startDate" placeholder="time" ng-disabled="event.wholeDay">
+			          	</md-input-container>
+					</div>
+				</div>
+
+
+				<md-input-container layout="row">
+					<label>Guests</label>
+					<md-contact-chips
+						flex
+						ng-model="event.guests"
+						md-contacts="querySearch($query)"
+						md-contact-name="name"
+						md-contact-image="avatar"
+						md-require-match="true"
+						placeholder="Start typing to add guests">
+					</md-contact-chips>
+					<md-button ng-click="openFriendsList($event)">
+						Pick From List
+					</md-button>
+
+				</md-input-container>
+				<md-input-container class="md-block">
+					<label>Message to participants</label>
+					<textarea ng-model="event.message" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+	        	</md-input-container>
+				<div>
+					<md-button class="md-raised md-primary" type="submit">Create Event</md-button>
+				</div>
+			</md-content>
+		</form>
 	</section>
 </div>

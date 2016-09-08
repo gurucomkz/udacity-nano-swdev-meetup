@@ -1,23 +1,38 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+<div layout="row" ng-if="!events.length">
+    <div flex></div>
+    <md-card md-theme="dark-red" class="login-result" md-theme-watch>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Some action needed</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            Events list is empty
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-if="currentUser" class="md-raised" ng-href="#/create">Create new event</md-button>
+          <md-button ng-if="!currentUser" class="md-raised" ng-href="#/login">Login to create events</md-button>
+        </md-card-actions>
+    </md-card>
+    <div flex></div>
 </div>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+<md-card ng-if="events" ng-repeat="event in events track by event.id">
+    <md-card-header>
+        <md-card-header-text>
+            <span class="md-title">{{event.name}}</span>
+            <span class="md-subhead">{{eventTypes[event.type]}} by {{getAccountName(event.creatorId)}}</span>
+        </md-card-header-text>
+    </md-card-header>
+    <md-card-content>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
-</div>
+        <div ng-if="event.message">{{event.message}}</div>
+        <div>Host: {{event.host}}</div>
+        <div ng-if="event.guests.length">Invited guests:
+            <span ng-repeat="guest in event.guests" class="contact-invited">{{guest.name}}</span>
+            </div>
+        <div>Event starts: {{event.startDate|date:"EEEE, dd MMM, yyyy @ HH:mm"}}</div>
+        <div>Event ends: {{event.endDate|date:"EEEE, dd MMM, yyyy @ HH:mm"}}</div>
+        <div>Location: {{event.location}}</div>
+    </md-card-content>
+</md-card>

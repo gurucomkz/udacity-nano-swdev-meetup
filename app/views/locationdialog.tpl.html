@@ -1,0 +1,29 @@
+<md-dialog aria-label="Pick event location">
+    <md-toolbar>
+		<div class="md-toolbar-tools">
+			<h2>Pick event location</h2>
+			<span flex></span>
+			<md-button class="md-icon-button" ng-click="cancel()">
+				<md-icon md-svg-src="images/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+			</md-button>
+		</div>
+    </md-toolbar>
+    <md-dialog-content>
+		<div class="md-dialog-content">
+			<div layout="column">
+				<leaflet flex event-broadcast="mapEvents" center="map.center" markers="map.markers" ng-if="locationDialogOpen"></leaflet>
+				<input disabled model="map.decoded">
+			</div>
+		</div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+		<span flex></span>
+		<md-button class="md-raised" ng-click="apply()">
+			Apply
+		</md-button>
+		<md-button ng-click="cancel()">
+			Cancel
+		</md-button>
+    </md-dialog-actions>
+
+</md-dialog>

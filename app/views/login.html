@@ -15,7 +15,8 @@
 		<md-card-actions layout="row" layout-align="end center">
           <md-button ng-if="!loginSuccess" class="md-raised" ng-click="retryAction()">Try again</md-button>
 		  <md-button ng-if="!loginSuccess" ng-href="#/signup">Register account</md-button>
-		  <md-button ng-if="loginSuccess" class="md-raised" ng-href="#/login">Go to meetings</md-button>
+		  <md-button ng-if="loginSuccess" class="md-raised" ng-href="#/">Go to events</md-button>
+		  <md-button ng-if="loginSuccess" class="md-raised" ng-href="#/create">Create event</md-button>
         </md-card-actions>
 	</md-card>
 	<section class="demo-container md-whiteframe-z1" ng-if="!loginMessage">

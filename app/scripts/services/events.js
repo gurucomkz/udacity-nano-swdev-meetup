@@ -19,12 +19,12 @@ angular.module('appMeetupApp')
 
     function _getEvents(){
         if(!localStorage.events){
-            localStorage.events = JSON.stringify([false]);
+            localStorage.events = JSON.stringify([]);
         }
 
         events = JSON.parse(localStorage.events);
         if(!events){
-            events = [false];
+            events = [];
         }
     }
 
@@ -38,7 +38,7 @@ angular.module('appMeetupApp')
             if(!event) {
                 return false;
             }
-            event.id = event.length;
+            event.id = events.length+1;
             events.push(event);
             _saveEvents();
 

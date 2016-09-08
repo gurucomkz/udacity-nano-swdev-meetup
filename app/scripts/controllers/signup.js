@@ -18,9 +18,9 @@ function ($scope, Accounts) {
         var signupResult = Accounts.create($scope.user);
         $scope.signupSuccess = signupResult;
         if(!signupResult){
-            $scope.signupMessage = "User already exists. You can login, you know :)";
+            $scope.signupMessage = 'User already exists. You can login, you know :)';
         }else{
-            $scope.signupMessage = "Account created successfully. You can login now.";
+            $scope.signupMessage = 'Account created successfully. You can login now.';
         }
     };
     $scope.retryAction = function(){

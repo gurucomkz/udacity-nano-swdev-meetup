@@ -13,10 +13,13 @@ angular
     'ngMessages',
     'ngRoute',
     'ngSanitize',
-    'ngMaterial'
+    'ngMaterial',
+    'nemLogging',
+    'ui-leaflet',
+    'ngGeolocation'
 ])
 .config(function ($routeProvider, $mdThemingProvider) {
-    "use strict";
+    'use strict';
 
     $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
     $mdThemingProvider.theme('dark-red').backgroundPalette('red').dark();
