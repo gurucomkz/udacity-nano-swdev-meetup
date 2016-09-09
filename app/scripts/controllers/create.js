@@ -25,6 +25,8 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
 
     $scope.allContacts = Friends.list();
 
+    $scope.currentUser = Accounts.current();
+
     $scope.onSubmit = function(){
         if(!$scope.event.host){
             return false;
@@ -46,7 +48,7 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
     $scope.resetForm = function(){
         $scope.retryAction();
         $scope.event = {
-            creatorId: Accounts.current().id,
+            creatorId: (Accounts.current() || {}).id,
             name: '',
             type: '',
             host: '',
@@ -94,7 +96,7 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
         return result;
     };
 
-    $scope.myName = Accounts.current().name;
+    $scope.myName = (Accounts.current() || {}).name;
     $scope.meAsHost = false;
     $scope.toggleMeAsHost = function(){
         $scope.meAsHost = !$scope.meAsHost;

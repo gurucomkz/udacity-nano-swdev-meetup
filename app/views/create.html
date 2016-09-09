@@ -1,4 +1,25 @@
-<div layout="row" class="chipsdemoContactChips">
+<div ng-if="!currentUser" layout="row">
+	<div flex></div>
+	<md-card flex>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline">Login needed</span>
+
+			</md-card-title-text>
+		</md-card-title>
+		<md-card-content>
+			<p>
+				Please login to create meetings
+			</p>
+		</md-card-content>
+		<md-card-actions layout="row" layout-align="end center">
+		  <md-button class="md-raised" ng-href="#/login">Login</md-button>
+		  <md-button class="md-raised" ng-href="#/signup">Signup</md-button>
+		</md-card-actions>
+	</md-card>
+	<div flex></div>
+</div>
+<div ng-if="currentUser" layout="row" class="chipsdemoContactChips">
 
 	<md-card  ng-if="createMessage" md-theme="{{ createSuccess ? 'dark-blue' : 'dark-red' }}" class="login-result" md-theme-watch>
 		<md-card-title>
