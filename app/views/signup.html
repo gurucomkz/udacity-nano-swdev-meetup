@@ -35,10 +35,9 @@
 				<div flex layout="column">
 					<md-input-container md-no-float class="md-block">
 						<label>Full Name</label>
-						<input ng-model="user.name" autofocus autocomplete="name" type="text" required ng-pattern="/\w+(\s+\w+)+/">
+						<input ng-model="user.name" autofocus autocomplete="name" type="text" required>
 						<div ng-messages="signupForm.name.$error" role="alert">
 							<div ng-message="required">This is required.</div>
-							<div ng-message="pattern">Please, give us your full name (first name and last name at least).</div>
 						</div>
 					</md-input-container>
 
