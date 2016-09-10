@@ -41,13 +41,13 @@ function ($scope, $mdDialog, $geolocation) {
     //  http://nominatim.openstreetmap.org/reverse?format=json&lat=52.5487429714954&lon=-1.81602098644987&zoom=18&addressdetails=1
 
     $scope.$on('leafletDirectiveMap.dblclick', function(event, marker){
-        console.log([event, marker]);
         $scope.map.markers.place.lat = marker.leafletEvent.latlng.lat;
         $scope.map.markers.place.lng = marker.leafletEvent.latlng.lng;
     });
 
-    $scope.$on('leafletDirectiveMap.dragend', function(event, marker){
-        console.log([event, marker]);
+    $scope.$on('leafletDirectiveMarker.dragend', function(event, marker){
+        $scope.map.markers.place.lat = marker.model.lat;
+        $scope.map.markers.place.lng = marker.model.lng;
     });
 
     $geolocation.getCurrentPosition({
