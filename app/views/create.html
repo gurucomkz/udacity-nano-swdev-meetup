@@ -19,9 +19,10 @@
 	</md-card>
 	<div flex></div>
 </div>
-<div ng-if="currentUser" layout="row" class="chipsdemoContactChips">
 
-	<md-card  ng-if="createMessage" md-theme="{{ createSuccess ? 'dark-blue' : 'dark-red' }}" class="login-result" md-theme-watch>
+<div ng-if="createMessage" layout="row">
+	<div flex></div>
+	<md-card md-theme="{{ createSuccess ? 'dark-blue' : 'dark-red' }}" class="login-result" md-theme-watch>
 		<md-card-title>
 			<md-card-title-text>
 				<span class="md-headline" ng-if="createSuccess">Success</span>
@@ -39,8 +40,12 @@
 		  <md-button ng-if="createSuccess" class="md-raised" ng-href="#/">Go to events</md-button>
 		</md-card-actions>
 	</md-card>
+	<div flex></div>
+</div>
 
-	<section  ng-if="!createMessage" flex  layout="column" class="demo-container md-whiteframe-z1">
+<div ng-if="currentUser && !createMessage"layout="row" class="chipsdemoContactChips">
+
+	<section  flex  layout="column" class="demo-container md-whiteframe-z1">
 		<md-toolbar>
 			<div class="md-toolbar-tools">
 				<h3>Create Meeting</h3>
@@ -51,7 +56,6 @@
 			<md-content flex class="md-padding autocomplete" layout="column">
 				<md-input-container>
 					<label>Name of the event</label>
-					<input ng-model="event.name" type="text" required>
 					<input ng-model="event.name" type="text" autofocus required>
 				</md-input-container>
 
@@ -124,11 +128,11 @@
 					<div layout="row" flex>
 						<md-input-container>
 			            	<label>Event start date</label>
-			            	<md-datepicker required ng-model="event.startDate" md-open-on-focus="true" md-placeholder="Start date"></md-datepicker>
+			            	<md-datepicker required ng-model="event.startDate" md-min-date="nowDate()" md-open-on-focus="true" md-placeholder="Start date"></md-datepicker>
 			          	</md-input-container>
 						<md-input-container>
 			            	<label>Event start time</label>
-			            	<input ng-model="event.startDate" type="time" placeholder="time" ng-disabled="event.wholeDay">
+			            	<input ng-model="event.startDate" required type="time" placeholder="time" ng-min="nowDate()" ng-disabled="event.wholeDay">
 			          	</md-input-container>
 					</div>
 					<div layout="row" flex>
@@ -138,7 +142,7 @@
 			          	</md-input-container>
 						<md-input-container>
 			            	<label>Event end time</label>
-			            	<input ng-model="event.endDate" type="time" ng-min="event.startDate" placeholder="time" ng-disabled="event.wholeDay">
+			            	<input ng-model="event.endDate" required type="time" ng-min="event.startDate" placeholder="time" ng-disabled="event.wholeDay">
 			          	</md-input-container>
 					</div>
 				</div>
