@@ -31,7 +31,7 @@
 
 					<md-input-container md-no-float class="md-block">
 						<label>Email</label>
-						<input ng-model="user.email" autocomplete="email" type="text" required ng-pattern="/^.+@.+\..+$/">
+						<input ng-model="user.email" autocomplete="email" type="text" required autofocus ng-pattern="/^.+@.+\..+$/">
 						<div ng-messages="loginForm.email.$error">
 							<div ng-message="required">This is required.</div>
 							<div ng-message="pattern">Check your input. Email seems to invalid.</div>
