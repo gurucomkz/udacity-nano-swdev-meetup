@@ -15,7 +15,7 @@ function ($timeout) {
             validIf:'='
         },
         restrict: 'E',
-        link: function postLink(scope, element, attrs) {
+        link: function postLink(scope, element) {
             var $acCtrl;
             $timeout(function() {
                 var s = element[0].querySelector('md-autocomplete-wrap'),
@@ -30,7 +30,7 @@ function ($timeout) {
                 if($acCtrl){
                     $acCtrl.isRequired = !newVal || !( Array.isArray(newVal) && newVal.length>0 || newVal.length || parseFloat(newVal) );
                 }
-            })
+            });
         }
     };
 }]);

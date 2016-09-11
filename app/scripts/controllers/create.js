@@ -28,7 +28,7 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
         d.setSeconds(0);
         d.setMilliseconds(0);
 
-        if(!_nowDate || _nowDate.getTime() != d.getTime()){
+        if(!_nowDate || _nowDate.getTime() !== d.getTime()){
             _nowDate = d;
         }
         return _nowDate;

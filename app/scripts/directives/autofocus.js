@@ -13,9 +13,9 @@ angular.module('appMeetupApp')
 function($timeout) {
     return {
         scope: {
-            focusMeIf:"="
+            focusMeIf: '='
         },
-        link: function ( scope, element, attrs ) {
+        link: function ( scope, element ) {
             if (scope.focusMeIf===undefined || scope.focusMeIf) {
                 $timeout( function () { element[0].focus(); } );
             }
