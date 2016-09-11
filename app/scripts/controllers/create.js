@@ -21,6 +21,18 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
         zoom: 12
     };
 
+    var _nowDate;
+    $scope.nowDate = function(){
+        var d = new Date();
+
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+
+        if(!_nowDate || _nowDate.getTime() != d.getTime()){
+            _nowDate = d;
+        }
+        return _nowDate;
+    };
     $scope.eventTypes = Events.getEventTypes();
 
     $scope.allContacts = Friends.list();
@@ -174,4 +186,13 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
     };
 
     $scope.resetForm();
+
+    $scope.$watch('event.startDate', function(newVal, oldVal){
+        if(newVal > $scope.event.endDate){
+            var hourdiff = ($scope.event.endDate && oldVal )? Math.max(1, $scope.event.endDate.getHours() - oldVal.getHours()) : 1;
+
+            $scope.event.endDate = new Date(newVal);
+            $scope.event.endDate.setHours($scope.event.endDate.getHours() + hourdiff);
+        }
+    });
 }]);
