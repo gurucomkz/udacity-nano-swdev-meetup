@@ -146,15 +146,19 @@
 
 				<md-input-container layout="row">
 					<label>Guests</label>
-					<md-contact-chips
-						flex
-						ng-model="event.guests"
-						md-contacts="querySearch($query)"
-						md-contact-name="name"
-						md-contact-image="avatar"
-						md-require-match="true"
-						placeholder="Start typing to add guests">
-					</md-contact-chips>
+					<chips-required flex valid-if="event.guests">
+						<md-contact-chips
+							flex
+							ng-model="event.guests"
+							md-contacts="querySearch($query)"
+							md-contact-name="name"
+							md-contact-image="avatar"
+							md-require-match="true"
+							md-input-name="guests"
+							placeholder="Start typing to add guests">
+
+						</md-contact-chips>
+					</chips-required>
 					<md-button ng-click="openFriendsList($event)">
 						Pick From List
 					</md-button>
