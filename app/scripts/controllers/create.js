@@ -21,22 +21,69 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
         zoom: 12
     };
 
+    var dateForm = function(d){ if(!d){d=new Date();} return [1900 + d.getYear(),d.getMonth()+1,d.getDate()].map(function(p){return p > 9 ? p : '0'+p;}).join(''); };
     var _nowDate;
-    $scope.nowDate = function(advisory){
+    $scope.nowDate = function(){
         var d = new Date();
 
+        d.setHours(0);
+        d.setMinutes(0);
         d.setSeconds(0);
         d.setMilliseconds(0);
-        if(advisory){
-            d.setMinutes(d.getMinutes()+10);
-            return d;
-        }
 
         if(!_nowDate || _nowDate.getTime() !== d.getTime()){
             _nowDate = d;
         }
         return _nowDate;
     };
+
+    $scope.nowTime = null;
+    $scope.minEndTime = null;
+
+    var getNormTime = function(){
+        var d = new Date();
+        d.setYear(1970);
+        d.setMonth(0);
+        d.setDate(1);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+        return d;
+    };
+    var setNowTime = function(){
+        var d = getNormTime();
+
+        if($scope.event.startDate && (dateForm() !== dateForm($scope.event.startDate))){
+            d.setMinutes(0);
+            d.setHours(0);
+        }
+
+        if(!$scope.nowTime || $scope.nowTime.getTime() !== d.getTime()){
+            $scope.nowTime = d;
+        }
+        return $scope.nowTime;
+    };
+
+    var setMinEndTime = function(){
+        var d = getNormTime();
+
+        if(!($scope.event.startDate && $scope.event.endDate) ||
+            $scope.event.startDate && $scope.event.endDate &&
+            (dateForm($scope.event.startDate) !== dateForm($scope.event.endDate)))
+        {
+            d.setMinutes(0);
+            d.setHours(0);
+        }else{
+            if($scope.event.startTime){
+                d.setHours($scope.event.startTime.getHours() + 1);
+            }
+        }
+
+        if(!$scope.minEndTime || $scope.minEndTime.getTime() !== d.getTime()){
+            $scope.minEndTime = d;
+        }
+        return $scope.minEndTime;
+    };
+
     $scope.eventTypes = Events.getEventTypes();
 
     $scope.allContacts = Friends.list();
@@ -71,6 +118,8 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
             guests: [],
             startDate: null,
             endDate: null,
+            startTime: null,
+            endTime: null,
             wholeDay: false,
             message: ''
         };
@@ -149,13 +198,18 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
             if(!$scope.event.startDate){
                 $scope.event.startDate = new Date();
             }
-            $scope.event.startDate.setMinutes(0);
-            $scope.event.startDate.setSeconds(0);
-            $scope.event.startDate.setMilliseconds(0);
+
+            if(!$scope.event.startTime){
+                $scope.event.startTime = new Date($scope.nowTime);
+            }
+            $scope.event.startTime.setMinutes(0);
+            $scope.event.startTime.setHours(9);
 
             $scope.event.endDate = new Date($scope.event.startDate);
-            $scope.event.startDate.setHours(9);
-            $scope.event.endDate.setHours(18);
+
+            $scope.event.endTime = new Date($scope.nowTime);
+            $scope.event.endTime.setMinutes(0);
+            $scope.event.endTime.setHours(18);
         }
     };
 
@@ -190,20 +244,52 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
     };
 
     $scope.resetForm();
+    setNowTime();
 
-    $scope.$watch('event.startDate', function(newVal, oldVal){
-        var minDTAdvisory = $scope.nowDate(true),
-            now = $scope.nowDate();
+    $scope.$watch('event.startTime', function(newVal){
+        if(!newVal){
+            return;
+        }
+        if(!$scope.event.startDate){
+            $scope.event.startDate = $scope.nowDate();
+        }
+
+        if(!$scope.event.endTime){
+            $scope.event.endTime = new Date(newVal);
+            $scope.event.endTime.setHours(newVal.getHours()+1);
+        }
+
+        setMinEndTime();
+        // if($scope.event.startDate && $scope.event.endDate &&
+        //     (dateForm($scope.event.endDate) === dateForm($scope.event.startDate)))
+        // {
+        //     if($scope.event.endTime.getTime() < newVal.getTime())
+        //     {
+        //         $scope.event.endTime.setHours(newVal.getHours()+1);
+        //     }
+        // }
+        //
+        // if($scope.event.endTime)
+
+    });
+
+    $scope.$watch('event.startDate', function(newVal){
         console.log(newVal);
         if(!newVal) {return;}
-        if(newVal < now){
-            $scope.event.startDate = newVal = minDTAdvisory;
+        setNowTime();
+        if(!$scope.event.startTime){
+            $scope.event.startTime = new Date($scope.nowTime);
+            $scope.event.startTime.setHours($scope.event.startTime.getHours()+1);
+            $scope.event.startTime.setMinutes(0);
         }
-        if(newVal > $scope.event.endDate){
-            var hourdiff = ($scope.event.endDate && oldVal )? Math.max(1, $scope.event.endDate.getHours() - oldVal.getHours()) : 1;
 
+        if(newVal > $scope.event.endDate){
             $scope.event.endDate = new Date(newVal);
-            $scope.event.endDate.setHours($scope.event.endDate.getHours() + hourdiff);
         }
+    });
+
+    $scope.$watch('event.endDate', function(newVal){
+        if(!newVal) {return;}
+        setMinEndTime();
     });
 }]);

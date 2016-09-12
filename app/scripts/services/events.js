@@ -39,6 +39,16 @@ angular.module('appMeetupApp')
                 return false;
             }
             event.id = events.length+1;
+            if(event.startTime && event.startTime.getHours){
+                event.startDate.setHours(event.startTime.getHours());
+                event.startDate.setMinutes(event.startTime.getMinutes());
+                delete event.startTime;
+            }
+            if(event.endTime && event.endTime.getHours){
+                event.endDate.setHours(event.endTime.getHours());
+                event.endDate.setMinutes(event.endTime.getMinutes());
+                delete event.endTime;
+            }
             events.push(event);
             _saveEvents();
 
