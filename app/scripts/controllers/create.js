@@ -22,11 +22,15 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
     };
 
     var _nowDate;
-    $scope.nowDate = function(){
+    $scope.nowDate = function(advisory){
         var d = new Date();
 
         d.setSeconds(0);
         d.setMilliseconds(0);
+        if(advisory){
+            d.setMinutes(d.getMinutes()+10);
+            return d;
+        }
 
         if(!_nowDate || _nowDate.getTime() !== d.getTime()){
             _nowDate = d;
@@ -188,6 +192,13 @@ function ($scope, Friends, Events, $mdDialog, Accounts, $geolocation) {
     $scope.resetForm();
 
     $scope.$watch('event.startDate', function(newVal, oldVal){
+        var minDTAdvisory = $scope.nowDate(true),
+            now = $scope.nowDate();
+        console.log(newVal);
+        if(!newVal) {return;}
+        if(newVal < now){
+            $scope.event.startDate = newVal = minDTAdvisory;
+        }
         if(newVal > $scope.event.endDate){
             var hourdiff = ($scope.event.endDate && oldVal )? Math.max(1, $scope.event.endDate.getHours() - oldVal.getHours()) : 1;
 

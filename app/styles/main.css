@@ -258,3 +258,9 @@ md-input-container input[type="time"]{
     padding: 0 15px;
     margin: 3px;
 }
+
+
+
+.md-datepicker-input-container{
+    width: calc(100% - 66px);
+}

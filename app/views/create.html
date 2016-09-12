@@ -124,23 +124,33 @@
 						</md-checkbox>
 					</md-input-container>
 				</div>
-				<div layout="column" layout-gt-xs="row" >
-					<div layout="row" flex>
-						<md-input-container>
+				<div layout="column" >
+					<div layout="column" layout-gt-xs="row">
+						<md-input-container flex>
 			            	<label>Event start date</label>
-			            	<md-datepicker required ng-model="event.startDate" md-min-date="nowDate()" md-open-on-focus="true" md-placeholder="Start date"></md-datepicker>
+			            	<md-datepicker required name="dateStart" ng-model="event.startDate" md-min-date="nowDate()" md-open-on-focus="true" md-placeholder="Start date"></md-datepicker>
+							<div class="validation-messages" ng-messages="eventCreateForm.dateStart.$error">
+								<div ng-message="valid">The entered value is not a date!</div>
+								<div ng-message="required">This date is required!</div>
+								<div ng-message="mindate">Date is too early!</div>
+							</div>
 			          	</md-input-container>
-						<md-input-container>
+						<md-input-container flex>
 			            	<label>Event start time</label>
 			            	<input ng-model="event.startDate" required type="time" placeholder="time" ng-min="nowDate()" ng-disabled="event.wholeDay">
 			          	</md-input-container>
 					</div>
-					<div layout="row" flex>
-						<md-input-container>
+					<div layout="column" layout-gt-xs="row">
+						<md-input-container  flex>
 			            	<label>Event end date</label>
-			            	<md-datepicker required ng-model="event.endDate" md-min-date="event.startDate" md-open-on-focus="true" md-placeholder="End date" ng-disabled="event.wholeDay"></md-datepicker>
+			            	<md-datepicker required ng-model="event.endDate" name="dateEnd" md-min-date="event.startDate" md-open-on-focus="true" md-placeholder="End date" ng-disabled="event.wholeDay"></md-datepicker>
+							<div class="validation-messages" ng-messages="eventCreateForm.dateEnd.$error">
+								<div ng-message="valid">The entered value is not a date!</div>
+								<div ng-message="required">This date is required!</div>
+								<div ng-message="mindate">Date is too early!</div>
+							</div>
 			          	</md-input-container>
-						<md-input-container>
+						<md-input-container  flex>
 			            	<label>Event end time</label>
 			            	<input ng-model="event.endDate" required type="time" ng-min="event.startDate" placeholder="time" ng-disabled="event.wholeDay">
 			          	</md-input-container>
